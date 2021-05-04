@@ -15,7 +15,6 @@ public class Lesson1 {
     }
     @AfterClass
     public void stopDriver(){
-
         driver.quit();
     }
 }
