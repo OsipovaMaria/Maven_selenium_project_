@@ -15,9 +15,7 @@ public class Lesson1 {
     @Test
     public void test1(){
         driver.get("http://www.google.com/");
-        System.out.println("Chrome open successfully ");
     }
-
     @AfterClass
     public void stopDriver(){
         driver.quit();
