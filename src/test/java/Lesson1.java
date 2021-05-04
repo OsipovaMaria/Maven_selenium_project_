@@ -1,6 +1,8 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 
 public class Lesson1 {
@@ -13,7 +15,7 @@ public class Lesson1 {
     @Test
     public void test1(){
         driver.get("http://www.google.com/");
-        System.out.println("Chrome open successfully");
+        System.out.println("Chrome open successfully ");
     }
 
     @AfterClass
