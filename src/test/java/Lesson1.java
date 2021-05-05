@@ -13,15 +13,15 @@ import java.util.concurrent.TimeUnit;
 
 public class Lesson1 {
     private WebDriver driver;
-    private String userNameElementCss = "input[name=username]";
-    private String passwordElementCss = "input[name=password]";
-    private String loginButtonCss = "button[name=login]";
-    private String logoutLinkCss = "a[title=Logout]";
+    private String userNameElementXpath = "//input[@name='username']";
+    private String passwordElementXpath = "//input[@name='password']";
+    private String loginButtonXpath = "//button[@name='login']";
+    private String logoutLinkXpath = "//a[@title='Logout']";
     private String loginValue = "admin";
     private int timeout = 5;
 
     @BeforeClass
-    public void startDriver(){
+    public void setUp(){
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeout));
     }
@@ -32,13 +32,13 @@ public class Lesson1 {
     @Test
     public void test3(){
         driver.get("http://localhost/litecart/admin/login.php");
-        driver.findElement(By.cssSelector(userNameElementCss)).sendKeys(loginValue);
-        driver.findElement(By.cssSelector(passwordElementCss)).sendKeys(loginValue);
-        driver.findElement(By.cssSelector(loginButtonCss)).click();
-        assert(driver.findElement(By.cssSelector(logoutLinkCss)).getText()).matches("Logout");
+        driver.findElement(By.xpath(userNameElementXpath)).sendKeys(loginValue);
+        driver.findElement(By.xpath(passwordElementXpath)).sendKeys(loginValue);
+        driver.findElement(By.xpath(loginButtonXpath)).click();
+        assert(driver.findElement(By.xpath(logoutLinkXpath)).getText()).matches("Logout");
     }
     @AfterClass
-    public void stopDriver(){
+    public void tearDown(){
         driver.quit();
     }
 }
