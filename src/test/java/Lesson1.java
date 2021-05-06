@@ -2,11 +2,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
@@ -36,12 +38,21 @@ public class Lesson1 {
         loginToAdmin(driver);
         assert (driver.findElement(By.xpath(logoutLinkXpath)).getText()).matches("Logout");
     }
+
     @Test
     public void test5() {
         WebDriver driverESR;
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability(FirefoxDriver.MARIONETTE, false);
         driverESR = new FirefoxDriver(caps);
+        loginToAdmin(driverESR);
+    }
+
+    @Test
+    public void test6() {
+        WebDriver driverESR;
+        System.setProperty("webdriver.gecko.driver", "C:\\Tools\\geckodriver.exe");
+        driverESR = new FirefoxDriver(new FirefoxOptions().setBinary("C:\\Program Files\\Firefox Nightly\\firefox.exe"));
         loginToAdmin(driverESR);
     }
 
