@@ -1,6 +1,8 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -31,13 +33,21 @@ public class Lesson1 {
 
     @Test
     public void test3() {
-        loginToAdmin();
+        loginToAdmin(driver);
         assert (driver.findElement(By.xpath(logoutLinkXpath)).getText()).matches("Logout");
+    }
+    @Test
+    public void test5() {
+        WebDriver driverESR;
+        DesiredCapabilities caps = new DesiredCapabilities();
+        caps.setCapability(FirefoxDriver.MARIONETTE, false);
+        driverESR = new FirefoxDriver(caps);
+        loginToAdmin(driverESR);
     }
 
     @Test
     public void test7() {
-        loginToAdmin();
+        loginToAdmin(driver);
         clickAppAndDoc("appearance", "logotype");
         clickAppAndDoc("catalog", "attribute_groups", "manufacturers", "suppliers", "delivery_statuses", "sold_out_statuses", "quantity_units", "csv");
         clickApps("countries", "currencies");
@@ -55,7 +65,7 @@ public class Lesson1 {
         clickApps("users", "vqmods");
     }
 
-    public void loginToAdmin() {
+    public void loginToAdmin(WebDriver driver) {
         driver.get("http://localhost/litecart/admin/login.php");
         driver.findElement(By.xpath(userNameElementXpath)).sendKeys(loginValue);
         driver.findElement(By.xpath(passwordElementXpath)).sendKeys(loginValue);
