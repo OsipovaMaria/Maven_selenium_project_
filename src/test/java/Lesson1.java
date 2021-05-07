@@ -1,8 +1,11 @@
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -11,6 +14,8 @@ import java.time.Duration;
 import java.util.List;
 
 public class Lesson1 {
+    private final String newStickerName = "NEW";
+    private final String saleStickerName = "SALE";
     private WebDriver driver;
     private final int timeout = 5;
 
@@ -57,6 +62,14 @@ public class Lesson1 {
                 subMenuItems.forEach(subMenuItem -> Utils.clickOnMenuItem(driver, subMenuItem.getDataCode()));
             }
         });
+    }
+
+    @Test
+    public void test8() {
+        Utils.openPage(driver, "http://localhost/litecart/");
+        List<WebElement> imageBoxes = driver.findElements(By.xpath("//div[@class='image-wrapper']"));
+        List<WebElement> stickerBoxes = driver.findElements(By.xpath("//div[@class='image-wrapper']//div"));
+        Assert.assertEquals(imageBoxes.size(), stickerBoxes.size());
     }
 
     @AfterClass
