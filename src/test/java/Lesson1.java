@@ -8,35 +8,36 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 
 public class Lesson1 {
     private WebDriver driver;
-    private String userNameElementXpath = "//input[@name='username']";
-    private String passwordElementXpath = "//input[@name='password']";
-    private String loginButtonXpath = "//button[@name='login']";
-    private String logoutLinkXpath = "//a[@title='Logout']";
-    private String loginValue = "admin";
-    private int timeout = 5;
-
+    private final int timeout = 5;
     @BeforeClass
     public void setUp(){
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeout));
     }
     @Test
-    public void test1(){
-        driver.get("http://www.google.com/");
+    public void test1() {
+        Utils.openPage(driver, "http://www.google.com/");
     }
     @Test
-    public void test3(){
-        driver.get("http://localhost/litecart/admin/login.php");
-        driver.findElement(By.xpath(userNameElementXpath)).sendKeys(loginValue);
-        driver.findElement(By.xpath(passwordElementXpath)).sendKeys(loginValue);
-        driver.findElement(By.xpath(loginButtonXpath)).click();
-        assert(driver.findElement(By.xpath(logoutLinkXpath)).getText()).matches("Logout");
+    public void test3() {
+        Utils.loginAsAdminUser(driver, "http://localhost/litecart/admin/login.php");
     }
+    @Test
+    public void test7() {
+        Utils.loginAsAdminUser(driver, "http://localhost/litecart/admin/login.php");
+        MenuPage.menuItemsList().forEach(item -> {
+            Utils.clickOnMenuItem(driver, item.getDataCode());
+            if (item.isSubMenuPresent()) {
+                List<MenuPage> subMenuItems = MenuPage.getSubMenuItems(item);
+                subMenuItems.forEach(subMenuItem -> Utils.clickOnMenuItem(driver, subMenuItem.getDataCode()));
+            }
+        });
+    }   
     @AfterClass
     public void tearDown(){
         driver.quit();
