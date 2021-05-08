@@ -68,10 +68,9 @@ public class Lesson1 {
     public void test8() {
         Utils.openPage(driver, "http://localhost/litecart/");
         List<WebElement> imageBoxes = driver.findElements(By.xpath("//div[@class='image-wrapper']"));
-        List<WebElement> stickerBoxes = driver.findElements(By.xpath("//div[@class='image-wrapper']//div"));
-        imageBoxes.forEach(box->{
-            List<WebElement> stickers = box.findElements(By.xpath("./div[starts-with(@class,'sticker')]"));
-            Assert.assertEquals(stickers.size(), 1);
+        imageBoxes.forEach(box -> {
+                    List<WebElement> stickers = box.findElements(By.xpath("./div[starts-with(@class,'sticker')]"));
+                    Assert.assertEquals(stickers.size(), 1);
                 }
         );
     }
