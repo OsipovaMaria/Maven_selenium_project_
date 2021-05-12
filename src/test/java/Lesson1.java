@@ -14,10 +14,8 @@ import java.time.Duration;
 import java.util.List;
 
 public class Lesson1 {
-    private final String newStickerName = "NEW";
-    private final String saleStickerName = "SALE";
     private WebDriver driver;
-    private final int timeout = 5;
+    private final int timeout = 15;
 
     @BeforeClass
     public void setUp() {
@@ -73,6 +71,22 @@ public class Lesson1 {
                     Assert.assertEquals(stickers.size(), 1);
                 }
         );
+    }
+
+    @Test
+    public void test9() {
+        Utils.loginAsAdminUser(driver, "http://localhost/litecart/admin/?app=countries&doc=countries");
+        Utils.checkOrder(driver, "//div[@class='panel-body']//a[text()]", false);
+        List<String> countriesToCheck = Utils.getCountriesNameWithZones(driver, "//td[@class='text-center']");
+        countriesToCheck.forEach(name -> {
+                    driver.findElement(By.xpath("//a[text()='" + name + "']")).click();
+                    Utils.checkOrder(driver, "//input[contains(@name,'country_code')]/..", true);
+                    driver.navigate().back();
+                }
+        );
+        driver.findElement(By.xpath("//a[contains(@href,'geo_zones')]")).click();
+        driver.findElement(By.xpath("//tbody//a")).click();
+        Utils.checkOrder(driver, "//input[contains(@name,'country_code')]/..", true);
     }
 
     @AfterClass

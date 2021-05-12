@@ -1,6 +1,11 @@
+import com.google.common.collect.Ordering;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utils {
     private static final String userNameElementXpath = "//input[@name='username']";
@@ -27,6 +32,26 @@ public class Utils {
 
     public static void clickOnMenuItem(WebDriver driver, String dataCode) {
         getMenuLocator(driver, dataCode).click();
+    }
+
+    public static List<String> getCountriesNameWithZones(WebDriver driver, String xPath) {
+        List<WebElement> allCountries = driver.findElements(By.xpath(xPath));
+        List<String> countriesWithZones = new ArrayList();
+        allCountries.forEach(country -> {
+            if (!country.getText().matches("0")) {
+                WebElement link = country.findElement(By.xpath("./../td[a]"));
+                countriesWithZones.add(link.getText());
+            }
+        });
+        return countriesWithZones;
+    }
+
+    public static void checkOrder(WebDriver driver, String xPath, boolean expectedResult) {
+        List<WebElement> elements = driver.findElements(By.xpath(xPath));
+        List<String> listOfValues = new ArrayList();
+        elements.forEach(element -> listOfValues.add(element.getText()));
+        boolean sorted = Ordering.usingToString().isOrdered(listOfValues);
+        Assert.assertEquals(sorted, expectedResult);
     }
 
 }
