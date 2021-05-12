@@ -21,6 +21,7 @@ public class Lesson1 {
     private final String CAMPAIGN_PRICE = "//strong[@class='campaign-price']";
     private final String REGULAR_PRICE = "//del[@class='regular-price']";
     private final By LOGOUT_LINK = By.xpath("//footer[@id='footer']//a[contains(@href,'logout')]");
+    private final By EDIT = By.xpath("//tbody//td//a[@title='Edit']");
 
     @BeforeClass
     public void setUp() {
@@ -120,7 +121,7 @@ public class Lesson1 {
     public void test14() {
         Utils.loginAsAdminUser(driver, "http://localhost/litecart/admin/login.php");
         Utils.clickOnMenuItem(driver, MenuPage.COUNTRIES.getDataCode());
-        driver.findElement(By.xpath("//tbody//td//a[@title='Edit']")).click();
+        driver.findElement(EDIT).click();
         String oldWindowsSet = driver.getWindowHandle();
         List<String> linksToCheck = Utils.getLinksToCheck();
         linksToCheck.forEach(link -> Utils.clickToLinkAndCloseNewWindow(driver, oldWindowsSet, link));
