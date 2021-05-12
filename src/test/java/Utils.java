@@ -45,6 +45,11 @@ public class Utils {
         });
         return countriesWithZones;
     }
+
+    public static WebElement findElementByXPath(WebDriver driver, String xPath) {
+        return driver.findElement(By.xpath(xPath));
+    }
+
     public static String getTextByXpath(WebDriver driver, String xPath) {
         return findElementByXPath(driver, xPath).getText();
     }
@@ -52,6 +57,7 @@ public class Utils {
     public static String getStyleValueByXpath(WebDriver driver, String xPath, String styleValue) {
         return findElementByXPath(driver, xPath).getCssValue(styleValue);
     }
+
     public static void checkOrder(WebDriver driver, String xPath, boolean expectedResult) {
         List<WebElement> elements = driver.findElements(By.xpath(xPath));
         List<String> listOfValues = new ArrayList();
@@ -99,9 +105,10 @@ public class Utils {
         params[1] = campaignPriceTextMainPage;
         return params;
     }
+
     public static void compareParams(String[] paramsMainPage, String[] paramsProductPage) {
         Assert.assertEquals(paramsMainPage.length, paramsProductPage.length);
-        for(int i=0;i<paramsMainPage.length;i++){
+        for (int i = 0; i < paramsMainPage.length; i++) {
             Assert.assertEquals(paramsMainPage[i], paramsProductPage[i]);
         }
     }

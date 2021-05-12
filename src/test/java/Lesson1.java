@@ -92,6 +92,7 @@ public class Lesson1 {
         driver.findElement(By.xpath("//tbody//a")).click();
         Utils.checkOrder(driver, "//input[contains(@name,'country_code')]/..", true);
     }
+
     @Test
     public void test10() {
         Utils.openPage(driver, "http://localhost/litecart/");
