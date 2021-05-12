@@ -90,7 +90,6 @@ public class Utils {
         String red = color[0].trim();
         String green = color[1].trim();
         String blue = color[2].trim();
-        boolean a = red == green;
         Assert.assertEquals((red.equals(green)) && (green.equals(blue)), true);
     }
 
