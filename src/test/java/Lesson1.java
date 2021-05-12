@@ -20,7 +20,7 @@ public class Lesson1 {
     private final String BOX_PRODUCT = "//article[@id='box-product']";
     private final String CAMPAIGN_PRICE = "//strong[@class='campaign-price']";
     private final String REGULAR_PRICE = "//del[@class='regular-price']";
-    private final String LOGOUT_LINK = "//footer[@id='footer']//a[contains(@href,'logout')]";
+    private final By LOGOUT_LINK =  By.xpath("//footer[@id='footer']//a[contains(@href,'logout')]");
 
     @BeforeClass
     public void setUp() {
@@ -109,11 +109,11 @@ public class Lesson1 {
     @Test
     public void test11() {
         Utils.openPage(driver, "http://localhost/litecart/");
-        String email = Utils.generateRundomEmail();
+        String email = Utils.generateRandomEmail();
         Utils.createNewUser(driver, email);
-        driver.findElement(By.xpath(LOGOUT_LINK)).click();
+        driver.findElement(LOGOUT_LINK).click();
         Utils.loginViaDropDownMenu(driver, email);
-        driver.findElement(By.xpath(LOGOUT_LINK)).click();
+        driver.findElement(LOGOUT_LINK).click();
     }
 
     @AfterClass

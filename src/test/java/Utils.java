@@ -140,7 +140,7 @@ public class Utils {
         driver.findElement(By.xpath("//ul[@class='dropdown-menu']//button")).click();
     }
 
-    public static String generateRundomEmail() {
+    public static String generateRandomEmail() {
         DateFormat df = new SimpleDateFormat("ddMMyyyyHHmmss");
         Date today = Calendar.getInstance().getTime();
         String todayDate = df.format(today);
