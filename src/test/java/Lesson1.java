@@ -16,6 +16,10 @@ import java.util.List;
 public class Lesson1 {
     private WebDriver driver;
     private final int timeout = 15;
+    private final String BOX_CAMPAIGN_PRODUCTS = "//*[@id='box-campaign-products']";
+    private final String BOX_PRODUCT = "//article[@id='box-product']";
+    private final String CAMPAIGN_PRICE = "//strong[@class='campaign-price']";
+    private final String REGULAR_PRICE = "//del[@class='regular-price']";
 
     @BeforeClass
     public void setUp() {
