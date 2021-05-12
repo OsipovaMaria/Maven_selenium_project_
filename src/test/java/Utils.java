@@ -6,10 +6,7 @@ import org.testng.Assert;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Utils {
     private static final String userNameElementXpath = "//input[@name='username']";
@@ -147,5 +144,26 @@ public class Utils {
         return "maria" + todayDate + "@mail.ru";
     }
 
+    public static void clickToLinkAndCloseNewWindow(WebDriver driver, String currentWindowHandle, String xPathNewWindow) {
+        driver.findElement(By.xpath(xPathNewWindow)).click();
+        Set<String> newWindowsSet = driver.getWindowHandles();
+        newWindowsSet.remove(currentWindowHandle);
+        driver.switchTo().window(newWindowsSet.iterator().next());
+        driver.close();
+        driver.switchTo().window(currentWindowHandle);
+    }
 
+    public static List<String> getLinksToCheck() {
+        List<String> linksToCheck = new ArrayList<>();
+        linksToCheck.add("//a[contains(@href,'numeric')]");
+        linksToCheck.add("//a[contains(@href,'alpha-2')]");
+        linksToCheck.add("//a[contains(@href,'alpha-3')]");
+        linksToCheck.add("//a[contains(@href,'Address')]");
+        linksToCheck.add("//label[contains(text(),'Tax')]//a[contains(@href,'Regular')]");
+        linksToCheck.add("//label[contains(text(),'Postcode')]//a[contains(@href,'Regular')]");
+        linksToCheck.add("//a[contains(@href,'List_of_ISO')]");
+        linksToCheck.add("//a[contains(@href,'List_of_countries')]");
+        linksToCheck.add("//a[contains(@href,'calling_codes')]");
+        return linksToCheck;
+    }
 }
