@@ -54,4 +54,50 @@ public class Utils {
         Assert.assertEquals(sorted, expectedResult);
     }
 
+    public static void compareElementsSize(WebDriver driver, String regularPriceLokator, String campaignPriceLokator) {
+        String regularPriceSize = getStyleValueByXpath(driver, regularPriceLokator, "font-size");
+        String campaignPriceSize = getStyleValueByXpath(driver, campaignPriceLokator, "font-size");
+        String[] regularPriceSizeSplitted = regularPriceSize.split("\\.");
+        String[] campaignPriceSizeSplitted = campaignPriceSize.split("\\.");
+        Assert.assertEquals(Integer.parseInt(regularPriceSizeSplitted[0]) < Integer.parseInt(campaignPriceSizeSplitted[0]), true);
+    }
+
+    public static void checkRedColor(String expectedRedColor) {
+        String[] color = expectedRedColor.split("\\(");
+        color = color[1].split("\\,");
+        String red = color[0].trim();
+        String green = color[1].trim();
+        String blue = color[2].trim();
+        Assert.assertEquals(green, "0");
+        Assert.assertEquals(blue, "0");
+    }
+
+    public static void checkGreyColor(String expectedGreyColor) {
+        String[] color = expectedGreyColor.split("\\(");
+        color = color[1].split("\\,");
+        String red = color[0].trim();
+        String green = color[1].trim();
+        String blue = color[2].trim();
+        boolean a = red == green;
+        Assert.assertEquals((red.equals(green)) && (green.equals(blue)), true);
+    }
+
+    public static String[] getAndCheckParams(WebDriver driver, String regularPrice, String campaignPrice) {
+        String regularPriceTextMainPage = Utils.getTextByXpath(driver, regularPrice);
+        String campaignPriceTextMainPage = Utils.getTextByXpath(driver, campaignPrice);
+        Utils.checkGreyColor(Utils.getStyleValueByXpath(driver, regularPrice, "color"));
+        Utils.checkRedColor(Utils.getStyleValueByXpath(driver, campaignPrice, "color"));
+        Utils.compareElementsSize(driver, regularPrice, campaignPrice);
+        String[] params = new String[2];
+        params[0] = regularPriceTextMainPage;
+        params[1] = campaignPriceTextMainPage;
+        return params;
+    }
+    public static void compareParams(String[] paramsMainPage, String[] paramsProductPage) {
+        Assert.assertEquals(paramsMainPage.length, paramsProductPage.length);
+        for(int i=0;i<paramsMainPage.length;i++){
+            Assert.assertEquals(paramsMainPage[i], paramsProductPage[i]);
+        }
+    }
+
 }
