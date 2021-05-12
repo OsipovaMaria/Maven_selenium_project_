@@ -4,7 +4,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Utils {
@@ -134,6 +138,13 @@ public class Utils {
         driver.findElement(By.xpath("//ul[@class='dropdown-menu']//input[@name='email']")).sendKeys(email);
         driver.findElement(By.xpath("//ul[@class='dropdown-menu']//input[@name='password']")).sendKeys("Maria");
         driver.findElement(By.xpath("//ul[@class='dropdown-menu']//button")).click();
+    }
+
+    public static String generateRundomEmail() {
+        DateFormat df = new SimpleDateFormat("ddMMyyyyHHmmss");
+        Date today = Calendar.getInstance().getTime();
+        String todayDate = df.format(today);
+        return "maria" + todayDate + "@mail.ru";
     }
 
 

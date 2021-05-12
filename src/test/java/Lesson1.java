@@ -20,6 +20,7 @@ public class Lesson1 {
     private final String BOX_PRODUCT = "//article[@id='box-product']";
     private final String CAMPAIGN_PRICE = "//strong[@class='campaign-price']";
     private final String REGULAR_PRICE = "//del[@class='regular-price']";
+    private final String LOGOUT_LINK = "//footer[@id='footer']//a[contains(@href,'logout')]";
 
     @BeforeClass
     public void setUp() {
@@ -108,12 +109,12 @@ public class Lesson1 {
     @Test
     public void test11() {
         Utils.openPage(driver, "http://localhost/litecart/");
-        Utils.createNewUser(driver, "maria9@mail.ru");
-        driver.findElement(By.xpath("//footer[@id='footer']//a[contains(@href,'logout')]")).click();
-        Utils.loginViaDropDownMenu(driver, "maria9@mail.ru");
-        driver.findElement(By.xpath("//footer[@id='footer']//a[contains(@href,'logout')]")).click();
+        String email = Utils.generateRundomEmail();
+        Utils.createNewUser(driver, email);
+        driver.findElement(By.xpath(LOGOUT_LINK)).click();
+        Utils.loginViaDropDownMenu(driver, email);
+        driver.findElement(By.xpath(LOGOUT_LINK)).click();
     }
-
 
     @AfterClass
     public void tearDown() {
