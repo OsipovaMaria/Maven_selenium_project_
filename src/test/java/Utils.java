@@ -45,7 +45,13 @@ public class Utils {
         });
         return countriesWithZones;
     }
+    public static String getTextByXpath(WebDriver driver, String xPath) {
+        return findElementByXPath(driver, xPath).getText();
+    }
 
+    public static String getStyleValueByXpath(WebDriver driver, String xPath, String styleValue) {
+        return findElementByXPath(driver, xPath).getCssValue(styleValue);
+    }
     public static void checkOrder(WebDriver driver, String xPath, boolean expectedResult) {
         List<WebElement> elements = driver.findElements(By.xpath(xPath));
         List<String> listOfValues = new ArrayList();
