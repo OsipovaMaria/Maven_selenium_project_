@@ -16,6 +16,10 @@ import java.util.List;
 public class Lesson1 {
     private WebDriver driver;
     private final int timeout = 15;
+    private final String BOX_CAMPAIGN_PRODUCTS = "//*[@id='box-campaign-products']";
+    private final String BOX_PRODUCT = "//article[@id='box-product']";
+    private final String CAMPAIGN_PRICE = "//strong[@class='campaign-price']";
+    private final String REGULAR_PRICE = "//del[@class='regular-price']";
 
     @BeforeClass
     public void setUp() {
@@ -87,6 +91,22 @@ public class Lesson1 {
         driver.findElement(By.xpath("//a[contains(@href,'geo_zones')]")).click();
         driver.findElement(By.xpath("//tbody//a")).click();
         Utils.checkOrder(driver, "//input[contains(@name,'country_code')]/..", true);
+    }
+
+    @Test
+    public void test10() {
+        Utils.openPage(driver, "http://localhost/litecart/");
+
+        String productNameFromMainPage = Utils.getTextByXpath(driver, BOX_CAMPAIGN_PRODUCTS + "//h4");
+        String[] paramsMainPage = Utils.getAndCheckParams(driver, BOX_CAMPAIGN_PRODUCTS + REGULAR_PRICE, BOX_CAMPAIGN_PRODUCTS + CAMPAIGN_PRICE);
+
+        driver.findElement(By.xpath(BOX_CAMPAIGN_PRODUCTS + "//a")).click();
+        String productNameFromProductPage = Utils.getTextByXpath(driver, BOX_PRODUCT + "//h1");
+
+        String[] paramsProductPage = Utils.getAndCheckParams(driver, REGULAR_PRICE, CAMPAIGN_PRICE);
+
+        Assert.assertEquals(productNameFromMainPage, productNameFromProductPage);
+        Utils.compareParams(paramsMainPage, paramsProductPage);
     }
 
     @AfterClass
