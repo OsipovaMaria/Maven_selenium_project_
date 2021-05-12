@@ -4,7 +4,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Utils {
@@ -113,9 +117,35 @@ public class Utils {
             for (int i = 0; i < paramsMainPage.length; i++) {
                 Assert.assertEquals(paramsMainPage[i], paramsProductPage[i]);
             }
-        } else{
+        } else {
             System.out.println("Parameters length for main page is not the same as product page. Please check it");
         }
     }
+
+    public static void createNewUser(WebDriver driver, String email) {
+        driver.findElement(By.xpath("//div[@class='columns']//a[contains(@href,'create_account')]")).click();
+        driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Maria");
+        driver.findElement(By.xpath("//input[@name='lastname']")).sendKeys("Maria");
+        driver.findElement(By.xpath("//div[@class='row']//input[@name='email']")).sendKeys(email);
+        driver.findElement(By.xpath("//div[@class='row']//input[@name='password']")).sendKeys("Maria");
+        driver.findElement(By.xpath("//div[@class='row']//input[@name='confirmed_password']")).sendKeys("Maria");
+        driver.findElement(By.xpath("//input[@name='newsletter']")).click();
+        driver.findElement(By.xpath("//button[@name='create_account']")).click();
+    }
+
+    public static void loginViaDropDownMenu(WebDriver driver, String email) {
+        driver.findElement(By.xpath("//a[text()=' Sign In ']")).click();
+        driver.findElement(By.xpath("//ul[@class='dropdown-menu']//input[@name='email']")).sendKeys(email);
+        driver.findElement(By.xpath("//ul[@class='dropdown-menu']//input[@name='password']")).sendKeys("Maria");
+        driver.findElement(By.xpath("//ul[@class='dropdown-menu']//button")).click();
+    }
+
+    public static String generateRandomEmail() {
+        DateFormat df = new SimpleDateFormat("ddMMyyyyHHmmss");
+        Date today = Calendar.getInstance().getTime();
+        String todayDate = df.format(today);
+        return "maria" + todayDate + "@mail.ru";
+    }
+
 
 }
