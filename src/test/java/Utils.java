@@ -90,7 +90,8 @@ public class Utils {
         String red = color[0].trim();
         String green = color[1].trim();
         String blue = color[2].trim();
-        Assert.assertEquals((red.equals(green)) && (green.equals(blue)), true);
+        // The digital value of red, green, and blue must match to produce gray color
+        Assert.assertTrue((red.equals(green)) && (green.equals(blue)));
     }
 
     public static String[] getAndCheckParams(WebDriver driver, String regularPrice, String campaignPrice) {
@@ -106,9 +107,14 @@ public class Utils {
     }
 
     public static void compareParams(String[] paramsMainPage, String[] paramsProductPage) {
-        Assert.assertEquals(paramsMainPage.length, paramsProductPage.length);
-        for (int i = 0; i < paramsMainPage.length; i++) {
-            Assert.assertEquals(paramsMainPage[i], paramsProductPage[i]);
+        int lengthMainPage = paramsMainPage.length;
+        int lengthProductPage = paramsProductPage.length;
+        if (lengthMainPage == lengthProductPage) {
+            for (int i = 0; i < paramsMainPage.length; i++) {
+                Assert.assertEquals(paramsMainPage[i], paramsProductPage[i]);
+            }
+        } else{
+            System.out.println("Parameters length for main page is not the same as product page. Please check it");
         }
     }
 
