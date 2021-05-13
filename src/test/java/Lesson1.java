@@ -27,6 +27,7 @@ public class Lesson1 {
     private final By LOGOUT_LINK = By.xpath("//footer[@id='footer']//a[contains(@href,'logout')]");
     private final By EDIT_ICON = By.xpath("//tbody//td//a[@title='Edit']");
     private final By LINK_GEO_ZONES = By.xpath("//a[contains(@href,'geo_zones')]");
+    private final By SUBMIT_BUTTON = By.xpath("//button[@type='submit']");
 
     @BeforeClass
     public void setUp() {
@@ -136,7 +137,6 @@ public class Lesson1 {
         submitButton.click();
         Utils.checkProductAdded(driver, nameProductsBeforeAddingNewProduct);
     }
-
 
     @Test
     public void test14() {
