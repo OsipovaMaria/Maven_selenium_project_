@@ -130,12 +130,12 @@ public class Lesson1 {
         Utils.loginAsAdminUser(driver, "http://localhost/litecart/admin/?app=catalog&doc=catalog");
         List<String> nameProductsBeforeAddingNewProduct = Utils.getProductsNames(driver);
         Utils.openAddProductPage(driver, wait);
-        Utils.comliteCatalogInformationPage(driver, wait);
-        Utils.comliteCatalogAttributesPage(driver, wait);
-        Utils.comliteCatalogPage(driver, wait);
+        Utils.completeCatalogInformationPage(driver, wait);
+        Utils.completeCatalogAttributesPage(driver, wait);
+        Utils.completeCatalogPage(driver, wait, "Book");
         WebElement submitButton = driver.findElement(SUBMIT_BUTTON);
         submitButton.click();
-        Utils.checkProductAdded(driver, nameProductsBeforeAddingNewProduct);
+        Utils.checkProductAdded(driver, nameProductsBeforeAddingNewProduct, "Book");
     }
 
     @Test
@@ -148,8 +148,8 @@ public class Lesson1 {
         linksToCheck.forEach(link -> Utils.clickToLinkAndCloseNewWindow(driver, oldWindowsSet, link));
     }
 
-    @AfterClass
+/*    @AfterClass
     public void tearDown() {
         driver.quit();
-    }
+    }*/
 }

@@ -216,9 +216,10 @@ public class Utils {
         return linksToCheck;
     }
 
-    public static void checkProductAdded(WebDriver driver, List<String> nameProductsBeforeAddingNewProduct) {
+    public static void checkProductAdded(WebDriver driver, List<String> nameProductsBeforeAddingNewProduct, String newProductName) {
         List<String> nameProductsAfterAddingNewProduct = Utils.getProductsNames(driver);
         nameProductsAfterAddingNewProduct.removeAll(nameProductsBeforeAddingNewProduct);
+        Assert.assertTrue(nameProductsAfterAddingNewProduct.contains(newProductName));
         Assert.assertNotNull(nameProductsAfterAddingNewProduct);
     }
 
@@ -236,11 +237,11 @@ public class Utils {
         addButton.click();
     }
 
-    public static void comliteCatalogPage(WebDriver driver, WebDriverWait wait) {
+    public static void completeCatalogPage(WebDriver driver, WebDriverWait wait, String newProductName) {
         driver.findElement(LINK_HREF_CONTAINS_GENERAL).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(INPUT_CODE));
         driver.findElement(ENABLE_BUTTON).click();
-        driver.findElement(INPUT_NAME).sendKeys("Name");
+        driver.findElement(INPUT_NAME).sendKeys(newProductName);
         driver.findElement(INPUT_CODE).sendKeys("Code");
         driver.findElement(INPUT_SKU).sendKeys("sku");
         driver.findElement(INPUT_MPN).sendKeys("mpn");
@@ -249,10 +250,9 @@ public class Utils {
         driver.findElement(INPUT_KEYWORDS).sendKeys("keywords");
         driver.findElement(INPUT_DATE_VALID_FROM).sendKeys("05/02/2021");
         driver.findElement(INPUT_DATE_VALID_TO).sendKeys("05/19/2021");
-        //driver.findElement(By.xpath("//input[contains(@name,'new_images')]")).sendKeys("C:\\xampp\\htdocs\\litecart\\images\\products\\Pen.jpg");
     }
 
-    public static void comliteCatalogInformationPage(WebDriver driver, WebDriverWait wait) {
+    public static void completeCatalogInformationPage(WebDriver driver, WebDriverWait wait) {
         driver.findElement(LINK_HREF_CONTAINS_INFORMATION).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(LINK_HREF_CONTAINS_SHORT_DESCRIPTION));
         driver.findElement(LINK_HREF_CONTAINS_SHORT_DESCRIPTION).sendKeys("Short description");
@@ -260,7 +260,7 @@ public class Utils {
         driver.findElement(INPUT_CONTAINS_HEAD_TITLE).sendKeys("Head title");
     }
 
-    public static void comliteCatalogAttributesPage(WebDriver driver, WebDriverWait wait) {
+    public static void completeCatalogAttributesPage(WebDriver driver, WebDriverWait wait) {
         driver.findElement(LINK_ATTRIBUTES).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(INPUT_CUSTOM_VALUE));
         driver.findElement(INPUT_CUSTOM_VALUE).sendKeys("Code");
