@@ -5,6 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class Lesson1 {
     private WebDriver driver;
+    private WebDriverWait wait;
     private final int timeout = 30;
     private final String BOX_CAMPAIGN_PRODUCTS = "//*[@id='box-campaign-products']";
     private final String BOX_PRODUCT = "//article[@id='box-product']";
@@ -30,6 +32,7 @@ public class Lesson1 {
     public void setUp() {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeout));
+        wait = new WebDriverWait(driver, 30);
     }
 
     @Test
@@ -119,6 +122,21 @@ public class Lesson1 {
         Utils.loginViaDropDownMenu(driver, email);
         driver.findElement(LOGOUT_LINK).click();
     }
+
+    @Test
+    public void test12() {
+        driver.manage().window().maximize();
+        Utils.loginAsAdminUser(driver, "http://localhost/litecart/admin/?app=catalog&doc=catalog");
+        List<String> nameProductsBeforeAddingNewProduct = Utils.getProductsNames(driver);
+        Utils.openAddProductPage(driver, wait);
+        Utils.comliteCatalogInformationPage(driver, wait);
+        Utils.comliteCatalogAttributesPage(driver, wait);
+        Utils.comliteCatalogPage(driver, wait);
+        WebElement submitButton = driver.findElement(SUBMIT_BUTTON);
+        submitButton.click();
+        Utils.checkProductAdded(driver, nameProductsBeforeAddingNewProduct);
+    }
+
 
     @Test
     public void test14() {

@@ -2,6 +2,8 @@ import com.google.common.collect.Ordering;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.text.DateFormat;
@@ -26,6 +28,26 @@ public class Utils {
     private static final By INPUT_EMAIL_DIV_CLASS_DROPDOWN_MENU = By.xpath("//ul[@class='dropdown-menu']//input[@name='email']");
     private static final By INPUT_PASSWORD_DIV_CLASS_DROPDOWN_MENU = By.xpath("//ul[@class='dropdown-menu']//input[@name='password']");
     private static final By BUTTON_UL_CLASS_DROPDOWN_MENU = By.xpath("//ul[@class='dropdown-menu']//button");
+    private static final By LINK_CATALOG_PAGE = By.xpath("//a[contains(@href,'app=catalog&doc=catalog')]");
+    private static final By LINK_WITH_TEXT = By.xpath("//tbody//tr//a[text()]");
+    private static final By BUTTON_ADD_NEW_PRODUCT = By.xpath("//*[contains(text(),'Add New Product')]");
+    private static final By LINK_HREF_CONTAINS_GENERAL = By.xpath("//a[contains(@href,'general')]");
+    private static final By ENABLE_BUTTON = By.xpath("//input[@type='radio' and @value='1']/..");
+    private static final By INPUT_NAME = By.xpath("//input[contains(@name,'name')]");
+    private static final By INPUT_CODE = By.xpath("//input[contains(@name,'code')]");
+    private static final By INPUT_SKU = By.xpath("//input[contains(@name,'sku')]");
+    private static final By INPUT_MPN = By.xpath("//input[contains(@name,'mpn')]");
+    private static final By INPUT_GTIN = By.xpath("//input[contains(@name,'gtin')]");
+    private static final By INPUT_TARIC = By.xpath("//input[contains(@name,'taric')]");
+    private static final By INPUT_KEYWORDS = By.xpath("//input[contains(@name,'keywords')]");
+    private static final By INPUT_DATE_VALID_FROM = By.xpath("//input[@name='date_valid_from']");
+    private static final By INPUT_DATE_VALID_TO = By.xpath("//input[@name='date_valid_to']");
+    private static final By LINK_HREF_CONTAINS_INFORMATION = By.xpath("//a[contains(@href,'information')]");
+    private static final By LINK_HREF_CONTAINS_SHORT_DESCRIPTION = By.xpath("//input[contains(@name,'short_description')]");
+    private static final By INPUT_CONTAINS_META_DESCRIPTION = By.xpath("//input[contains(@name,'meta_description')]");
+    private static final By INPUT_CONTAINS_HEAD_TITLE = By.xpath("//input[contains(@name,'head_title')]");
+    private static final By LINK_ATTRIBUTES = By.xpath("//a[text()='Attributes']");
+    private static final By INPUT_CUSTOM_VALUE = By.xpath("//input[contains(@name,'custom_value')]");
     private static final String XPATH_LINK_HREF_CONTAINS_NUMERIC = "//a[contains(@href,'numeric')]";
     private static final String XPATH_LINK_HREF_CONTAINS_ALPHA_2 = "//a[contains(@href,'alpha-2')]";
     private static final String XPATH_LINK_HREF_CONTAINS_ALPHA_3 = "//a[contains(@href,'alpha-3')]";
@@ -193,4 +215,56 @@ public class Utils {
         linksToCheck.add(XPATH_LINK_HREF_CONTAINS_CALLING_CODES);
         return linksToCheck;
     }
+
+    public static void checkProductAdded(WebDriver driver, List<String> nameProductsBeforeAddingNewProduct) {
+        List<String> nameProductsAfterAddingNewProduct = Utils.getProductsNames(driver);
+        nameProductsAfterAddingNewProduct.removeAll(nameProductsBeforeAddingNewProduct);
+        Assert.assertNotNull(nameProductsAfterAddingNewProduct);
+    }
+
+    public static List<String> getProductsNames(WebDriver driver) {
+        driver.findElement(LINK_CATALOG_PAGE).click();
+        List<WebElement> products = driver.findElements(LINK_WITH_TEXT);
+        List<String> nameProducts = new ArrayList<>();
+        products.forEach(el -> nameProducts.add(el.getText()));
+        return nameProducts;
+    }
+
+    public static void openAddProductPage(WebDriver driver, WebDriverWait wait) {
+        WebElement addButton = driver.findElement(BUTTON_ADD_NEW_PRODUCT);
+        wait.until(ExpectedConditions.visibilityOf(addButton));
+        addButton.click();
+    }
+
+    public static void comliteCatalogPage(WebDriver driver, WebDriverWait wait) {
+        driver.findElement(LINK_HREF_CONTAINS_GENERAL).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(INPUT_CODE));
+        driver.findElement(ENABLE_BUTTON).click();
+        driver.findElement(INPUT_NAME).sendKeys("Name");
+        driver.findElement(INPUT_CODE).sendKeys("Code");
+        driver.findElement(INPUT_SKU).sendKeys("sku");
+        driver.findElement(INPUT_MPN).sendKeys("mpn");
+        driver.findElement(INPUT_GTIN).sendKeys("gtin");
+        driver.findElement(INPUT_TARIC).sendKeys("taric");
+        driver.findElement(INPUT_KEYWORDS).sendKeys("keywords");
+        driver.findElement(INPUT_DATE_VALID_FROM).sendKeys("05/02/2021");
+        driver.findElement(INPUT_DATE_VALID_TO).sendKeys("05/19/2021");
+        //driver.findElement(By.xpath("//input[contains(@name,'new_images')]")).sendKeys("C:\\xampp\\htdocs\\litecart\\images\\products\\Pen.jpg");
+    }
+
+    public static void comliteCatalogInformationPage(WebDriver driver, WebDriverWait wait) {
+        driver.findElement(LINK_HREF_CONTAINS_INFORMATION).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(LINK_HREF_CONTAINS_SHORT_DESCRIPTION));
+        driver.findElement(LINK_HREF_CONTAINS_SHORT_DESCRIPTION).sendKeys("Short description");
+        driver.findElement(INPUT_CONTAINS_META_DESCRIPTION).sendKeys("Meta description");
+        driver.findElement(INPUT_CONTAINS_HEAD_TITLE).sendKeys("Head title");
+    }
+
+    public static void comliteCatalogAttributesPage(WebDriver driver, WebDriverWait wait) {
+        driver.findElement(LINK_ATTRIBUTES).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(INPUT_CUSTOM_VALUE));
+        driver.findElement(INPUT_CUSTOM_VALUE).sendKeys("Code");
+    }
+
+
 }
