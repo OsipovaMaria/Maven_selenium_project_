@@ -23,7 +23,7 @@ public class Lesson1 {
     private final String COUNTRY_CODE = "//input[contains(@name,'country_code')]/..";
     private final String LINK_WITH_TEXT_DIV_CLASS_PANEL_BODY = "//div[@class='panel-body']//a[text()]";
     private final By LOGOUT_LINK = By.xpath("//footer[@id='footer']//a[contains(@href,'logout')]");
-    private final By EDIT = By.xpath("//tbody//td//a[@title='Edit']");
+    private final By EDIT_ICON = By.xpath("//tbody//td//a[@title='Edit']");
     private final By LINK_GEO_ZONES = By.xpath("//a[contains(@href,'geo_zones')]");
 
     @BeforeClass
@@ -124,7 +124,7 @@ public class Lesson1 {
     public void test14() {
         Utils.loginAsAdminUser(driver, "http://localhost/litecart/admin/login.php");
         Utils.clickOnMenuItem(driver, MenuPage.COUNTRIES.getDataCode());
-        driver.findElement(EDIT).click();
+        driver.findElement(EDIT_ICON).click();
         String oldWindowsSet = driver.getWindowHandle();
         List<String> linksToCheck = Utils.getLinksToCheck();
         linksToCheck.forEach(link -> Utils.clickToLinkAndCloseNewWindow(driver, oldWindowsSet, link));
