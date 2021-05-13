@@ -14,11 +14,33 @@ import java.util.Set;
 
 
 public class Utils {
+    private static final By LINK_CREATE_ACCOUNT = By.xpath("//div[@class='columns']//a[contains(@href,'create_account')]");
+    private static final By INPUT_FIRSTNAME = By.xpath("//input[@name='firstname']");
+    private static final By INPUT_LASTNAME = By.xpath("//input[@name='lastname']");
+    private static final By INPUT_EMAIL_DIV_CLASS_ROW = By.xpath("//div[@class='row']//input[@name='email']");
+    private static final By INPUT_PASSWORD = By.xpath("//div[@class='row']//input[@name='password']");
+    private static final By INPUT_CONFIRMED_PASSWORD = By.xpath("//div[@class='row']//input[@name='confirmed_password']");
+    private static final By INPUT_NEWSLRTTER = By.xpath("//input[@name='newsletter']");
+    private static final By BUTTON_CREATE_ACCOUNT = By.xpath("//button[@name='create_account']");
+    private static final By LINK_SIGN_IN = By.xpath("//a[text()=' Sign In ']");
+    private static final By INPUT_EMAIL_DIV_CLASS_DROPDOWN_MENU = By.xpath("//ul[@class='dropdown-menu']//input[@name='email']");
+    private static final By INPUT_PASSWORD_DIV_CLASS_DROPDOWN_MENU = By.xpath("//ul[@class='dropdown-menu']//input[@name='password']");
+    private static final By BUTTON_UL_CLASS_DROPDOWN_MENU = By.xpath("//ul[@class='dropdown-menu']//button");
+    private static final String XPATH_LINK_HREF_CONTAINS_NUMERIC = "//a[contains(@href,'numeric')]";
+    private static final String XPATH_LINK_HREF_CONTAINS_ALPHA_2 = "//a[contains(@href,'alpha-2')]";
+    private static final String XPATH_LINK_HREF_CONTAINS_ALPHA_3 = "//a[contains(@href,'alpha-3')]";
+    private static final String XPATH_LINK_HREF_CONTAINS_ADDRESS = "//a[contains(@href,'Address')]";
+    private static final String XPATH_LINK_HREF_CONTAINS_REGULAR_LABEL_TAX = "//label[contains(text(),'Tax')]//a[contains(@href,'Regular')]";
+    private static final String XPATH_LINK_HREF_CONTAINS_REGULAR_LABEL_POSTCODE = "//label[contains(text(),'Postcode')]//a[contains(@href,'Regular')]";
+    private static final String XPATH_LINK_HREF_CONTAINS_LIST_OF_ISO = "//a[contains(@href,'List_of_ISO')]";
+    private static final String XPATH_LINK_HREF_CONTAINS_LIST_OF_COUNTRIES = "//a[contains(@href,'List_of_countries')]";
+    private static final String XPATH_LINK_HREF_CONTAINS_CALLING_CODES = "//a[contains(@href,'calling_codes')]";
     private static final String userNameElementXpath = "//input[@name='username']";
     private static final String passwordElementXpath = "//input[@name='password']";
     private static final String loginButtonXpath = "//button[@name='login']";
     private static final String logoutLinkXpath = "//a[@title='Logout']";
     private static final String loginValue = "admin";
+    private static final String mariaValue = "Maria";
 
     public static void openPage(WebDriver driver, String link) {
         driver.get(link);
@@ -125,21 +147,21 @@ public class Utils {
     }
 
     public static void createNewUser(WebDriver driver, String email) {
-        driver.findElement(By.xpath("//div[@class='columns']//a[contains(@href,'create_account')]")).click();
-        driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Maria");
-        driver.findElement(By.xpath("//input[@name='lastname']")).sendKeys("Maria");
-        driver.findElement(By.xpath("//div[@class='row']//input[@name='email']")).sendKeys(email);
-        driver.findElement(By.xpath("//div[@class='row']//input[@name='password']")).sendKeys("Maria");
-        driver.findElement(By.xpath("//div[@class='row']//input[@name='confirmed_password']")).sendKeys("Maria");
-        driver.findElement(By.xpath("//input[@name='newsletter']")).click();
-        driver.findElement(By.xpath("//button[@name='create_account']")).click();
+        driver.findElement(LINK_CREATE_ACCOUNT).click();
+        driver.findElement(INPUT_FIRSTNAME).sendKeys(mariaValue);
+        driver.findElement(INPUT_LASTNAME).sendKeys(mariaValue);
+        driver.findElement(INPUT_EMAIL_DIV_CLASS_ROW).sendKeys(email);
+        driver.findElement(INPUT_PASSWORD).sendKeys(mariaValue);
+        driver.findElement(INPUT_CONFIRMED_PASSWORD).sendKeys(mariaValue);
+        driver.findElement(INPUT_NEWSLRTTER).click();
+        driver.findElement(BUTTON_CREATE_ACCOUNT).click();
     }
 
     public static void loginViaDropDownMenu(WebDriver driver, String email) {
-        driver.findElement(By.xpath("//a[text()=' Sign In ']")).click();
-        driver.findElement(By.xpath("//ul[@class='dropdown-menu']//input[@name='email']")).sendKeys(email);
-        driver.findElement(By.xpath("//ul[@class='dropdown-menu']//input[@name='password']")).sendKeys("Maria");
-        driver.findElement(By.xpath("//ul[@class='dropdown-menu']//button")).click();
+        driver.findElement(LINK_SIGN_IN).click();
+        driver.findElement(INPUT_EMAIL_DIV_CLASS_DROPDOWN_MENU).sendKeys(email);
+        driver.findElement(INPUT_PASSWORD_DIV_CLASS_DROPDOWN_MENU).sendKeys("Maria");
+        driver.findElement(BUTTON_UL_CLASS_DROPDOWN_MENU).click();
     }
 
     public static String generateRandomEmail() {
@@ -160,15 +182,15 @@ public class Utils {
 
     public static List<String> getLinksToCheck() {
         List<String> linksToCheck = new ArrayList<>();
-        linksToCheck.add("//a[contains(@href,'numeric')]");
-        linksToCheck.add("//a[contains(@href,'alpha-2')]");
-        linksToCheck.add("//a[contains(@href,'alpha-3')]");
-        linksToCheck.add("//a[contains(@href,'Address')]");
-        linksToCheck.add("//label[contains(text(),'Tax')]//a[contains(@href,'Regular')]");
-        linksToCheck.add("//label[contains(text(),'Postcode')]//a[contains(@href,'Regular')]");
-        linksToCheck.add("//a[contains(@href,'List_of_ISO')]");
-        linksToCheck.add("//a[contains(@href,'List_of_countries')]");
-        linksToCheck.add("//a[contains(@href,'calling_codes')]");
+        linksToCheck.add(XPATH_LINK_HREF_CONTAINS_NUMERIC);
+        linksToCheck.add(XPATH_LINK_HREF_CONTAINS_ALPHA_2);
+        linksToCheck.add(XPATH_LINK_HREF_CONTAINS_ALPHA_3);
+        linksToCheck.add(XPATH_LINK_HREF_CONTAINS_ADDRESS);
+        linksToCheck.add(XPATH_LINK_HREF_CONTAINS_REGULAR_LABEL_TAX);
+        linksToCheck.add(XPATH_LINK_HREF_CONTAINS_REGULAR_LABEL_POSTCODE);
+        linksToCheck.add(XPATH_LINK_HREF_CONTAINS_LIST_OF_ISO);
+        linksToCheck.add(XPATH_LINK_HREF_CONTAINS_LIST_OF_COUNTRIES);
+        linksToCheck.add(XPATH_LINK_HREF_CONTAINS_CALLING_CODES);
         return linksToCheck;
     }
 }

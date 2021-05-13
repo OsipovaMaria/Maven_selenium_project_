@@ -20,8 +20,11 @@ public class Lesson1 {
     private final String BOX_PRODUCT = "//article[@id='box-product']";
     private final String CAMPAIGN_PRICE = "//strong[@class='campaign-price']";
     private final String REGULAR_PRICE = "//del[@class='regular-price']";
+    private final String COUNTRY_CODE = "//input[contains(@name,'country_code')]/..";
+    private final String LINK_WITH_TEXT_DIV_CLASS_PANEL_BODY = "//div[@class='panel-body']//a[text()]";
     private final By LOGOUT_LINK = By.xpath("//footer[@id='footer']//a[contains(@href,'logout')]");
     private final By EDIT = By.xpath("//tbody//td//a[@title='Edit']");
+    private final By LINK_GEO_ZONES = By.xpath("//a[contains(@href,'geo_zones')]");
 
     @BeforeClass
     public void setUp() {
@@ -82,17 +85,17 @@ public class Lesson1 {
     @Test
     public void test9() {
         Utils.loginAsAdminUser(driver, "http://localhost/litecart/admin/?app=countries&doc=countries");
-        Utils.checkOrder(driver, "//div[@class='panel-body']//a[text()]", false);
+        Utils.checkOrder(driver, LINK_WITH_TEXT_DIV_CLASS_PANEL_BODY, false);
         List<String> countriesToCheck = Utils.getCountriesNameWithZones(driver, "//td[@class='text-center']");
         countriesToCheck.forEach(name -> {
                     driver.findElement(By.xpath("//a[text()='" + name + "']")).click();
-                    Utils.checkOrder(driver, "//input[contains(@name,'country_code')]/..", true);
+                    Utils.checkOrder(driver, COUNTRY_CODE, true);
                     driver.navigate().back();
                 }
         );
-        driver.findElement(By.xpath("//a[contains(@href,'geo_zones')]")).click();
+        driver.findElement(LINK_GEO_ZONES).click();
         driver.findElement(By.xpath("//tbody//a")).click();
-        Utils.checkOrder(driver, "//input[contains(@name,'country_code')]/..", true);
+        Utils.checkOrder(driver, COUNTRY_CODE, true);
     }
 
     @Test
