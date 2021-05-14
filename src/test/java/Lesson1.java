@@ -5,6 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class Lesson1 {
     private WebDriver driver;
+    private WebDriverWait wait;
     private final int timeout = 30;
     private final String BOX_CAMPAIGN_PRODUCTS = "//*[@id='box-campaign-products']";
     private final String BOX_PRODUCT = "//article[@id='box-product']";
@@ -25,11 +27,13 @@ public class Lesson1 {
     private final By LOGOUT_LINK = By.xpath("//footer[@id='footer']//a[contains(@href,'logout')]");
     private final By EDIT_ICON = By.xpath("//tbody//td//a[@title='Edit']");
     private final By LINK_GEO_ZONES = By.xpath("//a[contains(@href,'geo_zones')]");
+    private final By SUBMIT_BUTTON = By.xpath("//button[@type='submit']");
 
     @BeforeClass
     public void setUp() {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeout));
+        wait = new WebDriverWait(driver, 30);
     }
 
     @Test
@@ -121,6 +125,20 @@ public class Lesson1 {
     }
 
     @Test
+    public void test12() {
+        driver.manage().window().maximize();
+        Utils.loginAsAdminUser(driver, "http://localhost/litecart/admin/?app=catalog&doc=catalog");
+        List<String> nameProductsBeforeAddingNewProduct = Utils.getProductsNames(driver);
+        Utils.openAddProductPage(driver, wait);
+        Utils.completeCatalogInformationPage(driver, wait);
+        Utils.completeCatalogAttributesPage(driver, wait);
+        Utils.completeCatalogPage(driver, wait, "Book");
+        WebElement submitButton = driver.findElement(SUBMIT_BUTTON);
+        submitButton.click();
+        Utils.checkProductAdded(driver, nameProductsBeforeAddingNewProduct, "Book");
+    }
+
+    @Test
     public void test14() {
         Utils.loginAsAdminUser(driver, "http://localhost/litecart/admin/login.php");
         Utils.clickOnMenuItem(driver, MenuPage.COUNTRIES.getDataCode());
@@ -130,8 +148,8 @@ public class Lesson1 {
         linksToCheck.forEach(link -> Utils.clickToLinkAndCloseNewWindow(driver, oldWindowsSet, link));
     }
 
-    @AfterClass
+/*    @AfterClass
     public void tearDown() {
         driver.quit();
-    }
+    }*/
 }
