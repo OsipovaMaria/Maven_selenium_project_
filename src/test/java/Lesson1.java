@@ -12,6 +12,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Lesson1 {
@@ -28,6 +29,7 @@ public class Lesson1 {
     private final By EDIT_ICON = By.xpath("//tbody//td//a[@title='Edit']");
     private final By LINK_GEO_ZONES = By.xpath("//a[contains(@href,'geo_zones')]");
     private final By SUBMIT_BUTTON = By.xpath("//button[@type='submit']");
+    private final By LINK_HREF_EDIT_PRODUCT = By.xpath("//td[a]//a[contains(@href,'edit_product')][text()]");
 
     @BeforeClass
     public void setUp() {
@@ -157,8 +159,19 @@ public class Lesson1 {
         linksToCheck.forEach(link -> Utils.clickToLinkAndCloseNewWindow(driver, oldWindowsSet, link));
     }
 
-/*    @AfterClass
+    @Test
+    public void test17() {
+        Utils.loginAsAdminUser(driver, "http://localhost/litecart/admin/?app=catalog&doc=catalog&category_id=1");
+        List<WebElement> products = driver.findElements(LINK_HREF_EDIT_PRODUCT);
+        List<String> productNames = new ArrayList<>();
+        products.forEach(product -> {
+            productNames.add(product.getText());
+        });
+        productNames.forEach(product -> Utils.checkLogs(driver, product));
+    }
+
+    @AfterClass
     public void tearDown() {
         driver.quit();
-    }*/
+    }
 }

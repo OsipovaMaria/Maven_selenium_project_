@@ -300,4 +300,13 @@ public class Utils {
             driver.findElement(BUTTON_REMOVE).click();
         }
     }
+
+    public static void checkLogs(WebDriver driver, String productName) {
+        driver.findElement(By.xpath("//td[a]//a[contains(@href,'edit_product')][contains(text(),'" + productName + "')]")).click();
+        driver.manage().logs().get("browser").getAll().forEach(l -> Assert.assertNull(l));
+        driver.manage().logs().get("driver").getAll().forEach(l -> Assert.assertNull(l));
+        driver.manage().logs().get("client").getAll().forEach(l -> Assert.assertNull(l));
+        driver.navigate().back();
+    }
+
 }
