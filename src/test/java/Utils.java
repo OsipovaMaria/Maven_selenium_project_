@@ -16,6 +16,13 @@ import java.util.Set;
 
 
 public class Utils {
+    private static final By DIV_LINK_ID_CART = By.xpath("//*[@id='cart']/a/div");
+    private static final By UL_LI = By.xpath("//ul//li");
+    private static final By BUTTON_REMOVE = By.xpath("//button[@title='Remove']");
+    private static final By H2_DIV_CLASS_CART_WRAPPER = By.xpath("//div[@class='cart wrapper']//h2");
+    private static final By LINK_CHECKOUT = By.xpath("//a[contains(@href,'checkout')]");
+    private static final By LINK_HOME = By.xpath("//a[@title='Home']");
+    private static final By ADD_CART_PRODUCT = By.xpath("//*[@type='submit' and @name='add_cart_product']");
     private static final By LINK_CREATE_ACCOUNT = By.xpath("//div[@class='columns']//a[contains(@href,'create_account')]");
     private static final By INPUT_FIRSTNAME = By.xpath("//input[@name='firstname']");
     private static final By INPUT_LASTNAME = By.xpath("//input[@name='lastname']");
@@ -266,5 +273,31 @@ public class Utils {
         driver.findElement(INPUT_CUSTOM_VALUE).sendKeys("Code");
     }
 
+    public static void addProductToBasket(WebDriver driver, WebDriverWait wait, String productName) {
+        driver.findElement(By.xpath("//a[@data-name='" + productName + "']")).click();
+        String basketCountBeforeAddingNewproduct = getBasketCount(driver);
+        WebElement addToBasket = driver.findElement(ADD_CART_PRODUCT);
+        addToBasket.click();
+        int count;
+        if (basketCountBeforeAddingNewproduct.equals("")) {
+            count = 1;
+        } else {
+            count = Integer.parseInt(basketCountBeforeAddingNewproduct) + 1;
+        }
+        wait.until(ExpectedConditions.textToBe(DIV_LINK_ID_CART, Integer.toString(count)));
+        driver.findElement(LINK_HOME).click();
+    }
 
+    public static String getBasketCount(WebDriver driver) {
+        return driver.findElement(DIV_LINK_ID_CART).getText();
+    }
+
+    public static void clearBasket(WebDriver driver, WebDriverWait wait) {
+        driver.findElement(LINK_CHECKOUT).click();
+        wait.until(ExpectedConditions.textToBe(H2_DIV_CLASS_CART_WRAPPER, "Shopping Cart"));
+        int countProductsToRemove = driver.findElements(UL_LI).size();
+        for (int i = 0; i < countProductsToRemove; i++) {
+            driver.findElement(BUTTON_REMOVE).click();
+        }
+    }
 }

@@ -139,6 +139,15 @@ public class Lesson1 {
     }
 
     @Test
+    public void test13() {
+        Utils.openPage(driver, "http://localhost/litecart/");
+        Utils.addProductToBasket(driver, wait, "Box");
+        Utils.addProductToBasket(driver, wait, "Pen");
+        Utils.addProductToBasket(driver, wait, "Box");
+        Utils.clearBasket(driver, wait);
+    }
+
+    @Test
     public void test14() {
         Utils.loginAsAdminUser(driver, "http://localhost/litecart/admin/login.php");
         Utils.clickOnMenuItem(driver, MenuPage.COUNTRIES.getDataCode());
