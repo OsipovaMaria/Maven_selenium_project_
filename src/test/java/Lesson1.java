@@ -1,16 +1,20 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -158,6 +162,25 @@ public class Lesson1 {
         List<String> linksToCheck = Utils.getLinksToCheck();
         linksToCheck.forEach(link -> Utils.clickToLinkAndCloseNewWindow(driver, oldWindowsSet, link));
     }
+
+    @Test
+    public void test15() throws MalformedURLException {
+        DesiredCapabilities capability = new DesiredCapabilities();
+        capability.setBrowserName("chrome");
+        capability.setPlatform(Platform.WIN10);
+        WebDriver driverRemote = new RemoteWebDriver(new URL("http://192.168.56.101:7574/wd/hub"), capability);
+        Utils.openPage(driverRemote, "https://yandex.ru/");
+    }
+
+    @Test
+    public void test16() throws MalformedURLException {
+        DesiredCapabilities capability = new DesiredCapabilities();
+        capability.setBrowserName("firefox");
+        capability.setPlatform(Platform.WINDOWS);
+        WebDriver driverRemote = new RemoteWebDriver(new URL("https://maria_kmryx2:BfTJHB1AbJtGX1r6sJYG@hub-cloud.browserstack.com/wd/hub"), capability);
+        Utils.openPage(driverRemote, "https://yandex.ru/");
+    }
+
 
     @Test
     public void test17() {
